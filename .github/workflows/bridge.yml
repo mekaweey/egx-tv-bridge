@@ -1,0 +1,19 @@
+name: tv-bridge
+on:
+  schedule:
+    # 06:45 UTC = 09:45 Cairo (5 min before window start). Job waits internally.
+    - cron: "45 6 * * 0-4"
+  workflow_dispatch: {}
+jobs:
+  bridge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: node tv_live_bridge.cjs
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
