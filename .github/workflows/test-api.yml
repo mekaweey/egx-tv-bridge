@@ -1,9 +1,11 @@
 name: test-api
 on:
+  schedule:
+    - cron: "* * * * *"
   workflow_dispatch: {}
 jobs:
   ping:
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
-      - run: echo "workflow registration probe"
+      - run: echo "scheduler probe $(date -u)"
